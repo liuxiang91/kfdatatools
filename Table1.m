@@ -155,10 +155,14 @@ if size(train_int,2)>8
     t1=[t1; {'Disk Hemorrhage per Patient', [num2str(mean(DH),'%.2f'),' (',num2str(std(DH),'%.2f'),')']}];
     
     prog=[];
+    firstProg=[];
     for i=2:size(train_int,1)
         prog=[prog sum(train_int{i,12})];
+        firstProg=[firstProg find(train_int{i,12},1,'first')];
     end
     t1=[t1; {'Progressions per Patient', [num2str(mean(prog),'%.2f'),' (',num2str(std(prog),'%.2f'),')']}];
+    t1=[t1; {'Time to 1st Progresion (Yr)', [num2str(mean(firstProg./2),'%.2f'),' (',num2str(std(firstProg./2),'%.2f'),')']}];
+    t1=[t1; {'No of Progressed Patients', num2str(sum(prog>0),'%.2f')}];
 else
     t1=[t1; {'Spherical Equivalent', 'NA'}];
     SE=nan;
@@ -169,10 +173,15 @@ else
     t1=[t1; {'Axial Length', 'NA'}];
     t1=[t1; {'Disk Hemorrhage per Patient', 'NA'}];
     prog=[];
+    firstProg=[];
     for i=2:size(train_int,1)
         prog=[prog sum(train_int{i,8})];
+        firstProg=[firstProg find(train_int{i,8},1,'first')];
     end
     t1=[t1; {'Progressions per Patient', [num2str(mean(prog),'%.2f'),' (',num2str(std(prog),'%.2f'),')']}];
+    t1=[t1; {'Time to 1st Progresion (Yr)', [num2str(mean(firstProg./2),'%.2f'),' (',num2str(std(firstProg./2),'%.2f'),')']}];
+    t1=[t1; {'No of Progressed Patients', num2str(sum(prog>0),'%.2f')}];
+    
 end
 
 
@@ -478,23 +487,32 @@ else % compute p values
         [~,pval]=ttest2(DH,TDH);
         t2=[t2; {'Disk Hemorrhage Count', [num2str(mean(TDH),'%.2f'),' (',num2str(std(TDH),'%.2f'),')'], num2str(pval,'%.2f')}];
         Tprog=[];
+        TfirstProg=[];
         for i=2:size(test_int,1)
             Tprog=[Tprog sum(test_int{i,12})];
+            TfirstProg=[TfirstProg find(test_int{i,12},1,'first')];
         end
         [~,pval]=ttest2(prog,Tprog);
         t2=[t2; {'Progressins per Patient', [num2str(mean(Tprog),'%.2f'),' (',num2str(std(Tprog),'%.2f'),')'], num2str(pval,'%.2f')}];
+        [~,pval]=ttest2(firstProg,TfirstProg);
+        t2=[t2; {'Time to 1st Progresion (Yr)', [num2str(mean(TfirstProg./2),'%.2f'),' (',num2str(std(TfirstProg./2),'%.2f'),')'], num2str(pval,'%.2f')}];
+        t2=[t2; {'No of Progressed Patients', num2str(sum(Tprog>0),'%.2f'), ''}];
     else
-            t2=[t2; {'Spherical Equivalent', 'NA',''}];
-    t2=[t2; {'CCT', 'NA',''}];
-    t2=[t2; {'Axial Length', 'NA',''}];
-    t2=[t2; {'Disk Hemorrhage per Patient', 'NA',''}];
+        t2=[t2; {'Spherical Equivalent', 'NA',''}];
+        t2=[t2; {'CCT', 'NA',''}];
+        t2=[t2; {'Axial Length', 'NA',''}];
+        t2=[t2; {'Disk Hemorrhage per Patient', 'NA',''}];
         Tprog=[];
+        TfirstProg=[];
         for i=2:size(test_int,1)
             Tprog=[Tprog sum(test_int{i,8})];
+            TfirstProg=[TfirstProg find(test_int{i,8},1,'first')];
         end
         [~,pval]=ttest2(prog,Tprog);
         t2=[t2; {'Progressins per Patient', [num2str(mean(Tprog),'%.2f'),' (',num2str(std(Tprog),'%.2f'),')'], num2str(pval,'%.2f')}];
-        
+        [~,pval]=ttest2(firstProg,TfirstProg);
+        t2=[t2; {'Time to 1st Progresion (Yr)', [num2str(mean(TfirstProg./2),'%.2f'),' (',num2str(std(TfirstProg./2),'%.2f'),')'], num2str(pval,'%.2f')}];
+        t2=[t2; {'No of Progressed Patients', num2str(sum(Tprog>0),'%.2f'), ''}];
         
     end
     
