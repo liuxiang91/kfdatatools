@@ -1,10 +1,11 @@
-function [ DATA ] = interpolateDataJapan( data )
+function [ DATA,raw ] = interpolateDataJapan( data )
 %INTERPOLATEDATA Summary of this function goes here
 %   Detailed explanation goes here
 data=frontBackTrim(data);
 numPat=size(data,1)-1;
 outPatCount=2;
 DATA=cell(1,11);
+raw=cell(1,10);
 DATA(1,:)={'ID','VisNum','InterpolatedReadings','baseline','age','race','sex', 'SphEq', 'CCT', 'AxLen','DiskHem'};
 
 excludeCount=0;
@@ -102,7 +103,7 @@ for i=2:numPat+1
         DATA{outPatCount,8}=ones(1,T-3)*min(data{i,7});%SE
         DATA{outPatCount,9}=ones(1,T-3)*min(data{i,8});%CCT
         DATA{outPatCount,10}=ones(1,T-3)*min(data{i,9});%AX
-        
+        raw=[raw; data(i,:)];
         
         % put DH: 
         DHtimes=data{i,2}(data{i,10}==1);
