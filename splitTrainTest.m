@@ -1,4 +1,4 @@
-function [ train,test,trainRaw,testRaw ] = splitTrainTest( data,dataRaw ratio )
+function [ train,test,trainRaw,testRaw ] = splitTrainTest( data,dataRaw, ratio )
 %SPLITTRAINTEST Summary of this function goes here
 %   Detailed explanation goes here
 train=data(1,:);
