@@ -1,10 +1,11 @@
-function [ DATA ] = interpolateData( data )
+function [ DATA ,raw] = interpolateData( data )
 %INTERPOLATEDATA Summary of this function goes here
 %   Detailed explanation goes here
 data=frontBackTrim(data);
 numPat=size(data,1)-1;
 outPatCount=2;
 DATA=cell(1,7);
+raw=cell(1,6);
 DATA(1,:)={'ID','VisNum','InterpolatedReadings','baseline','age','race','sex'};
 
 excludeCount=0;
@@ -90,7 +91,7 @@ for i=2:numPat+1
         DATA{outPatCount,5}=age(:,4:end);%age
         DATA{outPatCount,6}=ones(1,T-3)*min(data{i,5});%race
         DATA{outPatCount,7}=ones(1,T-3)*min(data{i,6});%sex
-        
+        raw=[raw; data(i,:)];
         if max(isnan(DATA{outPatCount,2}))==1 || ...
                 max(max(isnan(DATA{outPatCount,3})))==1 || ...
                 max(max(isnan(DATA{outPatCount,4})))==1 || ...
