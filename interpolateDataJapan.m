@@ -87,7 +87,7 @@ for i=2:numPat+1
         continue;
     end
     
-    if sum(~isnan(temp(9,:)))<2
+    if sum(~isnan(temp(9,:)))<4
         fprintf('%s has too few readings after interpolation\n',data{i,1});
         excludeCount=excludeCount+1;
         continue;
