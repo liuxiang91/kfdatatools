@@ -408,7 +408,7 @@ else % compute p values
         TestInterval=[TestInterval (mean(intdif))];
     end
     [~,pval]=ttest2(TestInterval,Interval);
-    t2=[t2; {'Mean (SD) visit interval (month)', [num2str(mean(TestInterval),'%.2f'),' (',num2str(std(TestInterval),'%.2f'),')'], num2str(pval,'%.2f')}];
+    t2=[t2; {'Mean (SD) visit interval (month)', [num2str(mean(Interval),'%.2f'),' (',num2str(std(Interval),'%.2f'),')'], num2str(pval,'%.2f')}];
     
     
     
